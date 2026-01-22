@@ -1,2 +1,2 @@
 #COE311K
-Hello world!
+Hello World!
