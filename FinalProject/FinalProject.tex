@@ -1,0 +1,2271 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{FinalProject}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{AUTHOR}\label{author}
+
+\subsection{Nikhil Reddy Battpati}\label{nikhil-reddy-battpati}
+
+\subsubsection{EID: nb29255}\label{eid-nb29255}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+
+\PY{c+c1}{\PYZsh{} PART 1 \PYZhy{} OPTION C (Damped Mechanical System)}
+
+\PY{n}{stepSizes} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.01}\PY{p}{,}\PY{l+m+mf}{0.05}\PY{p}{,}\PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.15}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{)}
+\PY{n}{w} \PY{o}{=} \PY{l+m+mf}{8.5}
+\PY{n}{zeta} \PY{o}{=} \PY{l+m+mf}{0.56}
+\PY{n}{y\PYZus{}init} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+\PY{n}{y\PYZus{}init\PYZus{}prime} \PY{o}{=} \PY{l+m+mi}{0} 
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{ForwardEuler}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{w}\PY{p}{,}\PY{n}{zeta}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{}Initialize Matrix Representing Dynamics}
+    \PY{n}{A1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{n}{w}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+    \PY{n}{A2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{zeta}\PY{o}{*}\PY{n}{w}\PY{p}{]}\PY{p}{)}
+    \PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{column\PYZus{}stack}\PY{p}{(}\PY{p}{(}\PY{n}{A1}\PY{p}{,}\PY{n}{A2}\PY{p}{)}\PY{p}{)} 
+
+    \PY{c+c1}{\PYZsh{}Initialize Arrays That Will Be Returned}
+    \PY{n}{submit\PYZus{}y\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}x\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+
+    \PY{k}{for} \PY{n}{stepSize} \PY{o+ow}{in} \PY{n}{stepSizes}\PY{p}{:}
+        \PY{n}{x\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{80}\PY{o}{+}\PY{n}{stepSize}\PY{p}{,} \PY{n}{stepSize}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}Initial Conditions}
+        \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}init}\PY{p}{]}\PY{p}{)}
+        \PY{n}{y\PYZus{}prime\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{]}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Forward Euler Integration Scheme}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{n}{y\PYZus{}state} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+            \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{+} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{n}{A}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{@} \PY{n}{y\PYZus{}state}\PY{p}{)} \PY{p}{)}
+            \PY{n}{y\PYZus{}prime\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{+} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{n}{A}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{@} \PY{n}{y\PYZus{}state}\PY{p}{)}\PY{p}{)}
+
+
+        \PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{)}
+
+    
+
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{p}{]}\PY{p}{,}\PY{n}{dtype}\PY{o}{=}\PY{n+nb}{object}\PY{p}{)}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{RungeKutta}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{w}\PY{p}{,}\PY{n}{zeta}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{}Initialize Matrix Representing Dynamics}
+    \PY{n}{A1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{n}{w}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+    \PY{n}{A2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{zeta}\PY{o}{*}\PY{n}{w}\PY{p}{]}\PY{p}{)}
+    \PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{column\PYZus{}stack}\PY{p}{(}\PY{p}{(}\PY{n}{A1}\PY{p}{,}\PY{n}{A2}\PY{p}{)}\PY{p}{)} 
+
+    \PY{c+c1}{\PYZsh{}Initialize Arrays That Will Be Returned}
+    \PY{n}{submit\PYZus{}y\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}x\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+   
+
+    \PY{k}{for} \PY{n}{stepSize} \PY{o+ow}{in} \PY{n}{stepSizes}\PY{p}{:}
+
+        \PY{n}{x\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{80}\PY{o}{+}\PY{n}{stepSize}\PY{p}{,} \PY{n}{stepSize}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{}Initial Conditions}
+        \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}init}\PY{p}{]}\PY{p}{)}
+        \PY{n}{y\PYZus{}prime\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{]}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Runge\PYZhy{}Kutta Integration Scheme}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{n}{y\PYZus{}state} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+            \PY{n}{k1} \PY{o}{=} \PY{n}{A} \PY{o}{@} \PY{n}{y\PYZus{}state}
+            \PY{n}{k2} \PY{o}{=} \PY{n}{A} \PY{o}{@} \PY{p}{(}\PY{n}{y\PYZus{}state} \PY{o}{+} \PY{l+m+mf}{0.5} \PY{o}{*} \PY{n}{stepSize} \PY{o}{*} \PY{n}{k1}\PY{p}{)}
+            \PY{n}{k3} \PY{o}{=} \PY{n}{A} \PY{o}{@} \PY{p}{(}\PY{n}{y\PYZus{}state} \PY{o}{+} \PY{l+m+mf}{0.5} \PY{o}{*} \PY{n}{stepSize} \PY{o}{*} \PY{n}{k2}\PY{p}{)}
+            \PY{n}{k4} \PY{o}{=} \PY{n}{A} \PY{o}{@} \PY{p}{(}\PY{n}{y\PYZus{}state} \PY{o}{+} \PY{n}{stepSize} \PY{o}{*} \PY{n}{k3}\PY{p}{)}
+            \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{+} \PY{p}{(}\PY{n}{stepSize} \PY{o}{/} \PY{l+m+mi}{6}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{k1}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{k2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{k3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{n}{k4}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{p}{)}
+            \PY{n}{y\PYZus{}prime\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{+} \PY{p}{(}\PY{n}{stepSize} \PY{o}{/} \PY{l+m+mi}{6}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{k1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{k2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{k3}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{k4}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{p}{)}
+
+
+        \PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{)}
+    
+
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{p}{]}\PY{p}{,}\PY{n}{dtype}\PY{o}{=}\PY{n+nb}{object}\PY{p}{)}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{AnalyticalSolution}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{w}\PY{p}{,} \PY{n}{zeta}\PY{p}{,} \PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{}Damped Natural Frequency (Underdamped case since zeta \PYZlt{} 1)}
+    \PY{n}{wd} \PY{o}{=} \PY{n}{w} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{zeta}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{}Coefficients Derived From Initial Conditions}
+    \PY{n}{A\PYZus{}coef} \PY{o}{=} \PY{n}{y\PYZus{}init}
+    \PY{n}{B\PYZus{}coef} \PY{o}{=} \PY{p}{(}\PY{n}{y\PYZus{}init\PYZus{}prime} \PY{o}{+} \PY{n}{zeta} \PY{o}{*} \PY{n}{w} \PY{o}{*} \PY{n}{y\PYZus{}init}\PY{p}{)} \PY{o}{/} \PY{n}{wd}
+
+    \PY{c+c1}{\PYZsh{}Initialize Arrays That Will Be Returned}
+    \PY{n}{submit\PYZus{}y\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}x\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{stepSize} \PY{o+ow}{in} \PY{n}{stepSizes}\PY{p}{:}
+        \PY{n}{x\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{80}\PY{o}{+}\PY{n}{stepSize}\PY{p}{,} \PY{n}{stepSize}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Analytical Solution: y(t) = e\PYZca{}(\PYZhy{}zeta*w*t) * (A*cos(wd*t) + B*sin(wd*t))}
+        \PY{n}{envelope} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{zeta} \PY{o}{*} \PY{n}{w} \PY{o}{*} \PY{n}{x\PYZus{}vals}\PY{p}{)} \PY{c+c1}{\PYZsh{} Envolope that the amplitude is decaying with respect to}
+        \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{envelope} \PY{o}{*} \PY{p}{(}\PY{n}{A\PYZus{}coef} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{wd} \PY{o}{*} \PY{n}{x\PYZus{}vals}\PY{p}{)} \PY{o}{+} \PY{n}{B\PYZus{}coef} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{wd} \PY{o}{*} \PY{n}{x\PYZus{}vals}\PY{p}{)}\PY{p}{)}
+        \PY{n}{y\PYZus{}prime\PYZus{}vals} \PY{o}{=} \PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{zeta} \PY{o}{*} \PY{n}{w} \PY{o}{*} \PY{n}{envelope} \PY{o}{*} \PY{p}{(}\PY{n}{A\PYZus{}coef} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{wd} \PY{o}{*} \PY{n}{x\PYZus{}vals}\PY{p}{)} \PY{o}{+} \PY{n}{B\PYZus{}coef} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{wd} \PY{o}{*} \PY{n}{x\PYZus{}vals}\PY{p}{)}\PY{p}{)}
+                        \PY{o}{+} \PY{n}{envelope} \PY{o}{*} \PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{A\PYZus{}coef} \PY{o}{*} \PY{n}{wd} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{wd} \PY{o}{*} \PY{n}{x\PYZus{}vals}\PY{p}{)} \PY{o}{+} \PY{n}{B\PYZus{}coef} \PY{o}{*} \PY{n}{wd} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{wd} \PY{o}{*} \PY{n}{x\PYZus{}vals}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+        \PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}prime\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}y\PYZus{}prime\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{object}\PY{p}{)}
+
+
+
+
+
+\PY{k}{for} \PY{n}{stepSize} \PY{o+ow}{in} \PY{n}{stepSizes}\PY{p}{:}
+    
+    \PY{n}{y\PYZus{}vals\PYZus{}euler}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}euler}\PY{p}{,} \PY{n}{x\PYZus{}vals\PYZus{}euler} \PY{o}{=} \PY{n}{ForwardEuler}\PY{p}{(}\PY{p}{[}\PY{n}{stepSize}\PY{p}{]}\PY{p}{,} \PY{n}{w}\PY{p}{,}\PY{n}{zeta}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{)}
+    \PY{n}{y\PYZus{}vals\PYZus{}rk}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}rk}\PY{p}{,} \PY{n}{x\PYZus{}vals\PYZus{}rk} \PY{o}{=} \PY{n}{RungeKutta}\PY{p}{(}\PY{p}{[}\PY{n}{stepSize}\PY{p}{]}\PY{p}{,} \PY{n}{w}\PY{p}{,}\PY{n}{zeta}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{)}
+
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Forward Euler}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Runge\PYZhy{}Kutta}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y(t) \PYZhy{} Step Size: }\PY{l+s+si}{\PYZob{}}\PY{n}{stepSize}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y(t)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Forward Euler}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Runge\PYZhy{}Kutta}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V(t) \PYZhy{} Step Size: }\PY{l+s+si}{\PYZob{}}\PY{n}{stepSize}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{v(t)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{y\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Forward Euler}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{y\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Runge\PYZhy{}Kutta}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Phase Plot \PYZhy{} Step Size: }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stepSize}\PY{p}{)}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y(t)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{v(t)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Initialize Arrays To Store Max Errors For Convergence Plot}
+\PY{n}{euler\PYZus{}max\PYZus{}errors} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{rk\PYZus{}max\PYZus{}errors} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{stepSize} \PY{o+ow}{in} \PY{n}{stepSizes}\PY{p}{:}
+
+    \PY{n}{y\PYZus{}vals\PYZus{}euler}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}euler}\PY{p}{,} \PY{n}{x\PYZus{}vals\PYZus{}euler} \PY{o}{=} \PY{n}{ForwardEuler}\PY{p}{(}\PY{p}{[}\PY{n}{stepSize}\PY{p}{]}\PY{p}{,} \PY{n}{w}\PY{p}{,} \PY{n}{zeta}\PY{p}{,} \PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{)}
+    \PY{n}{y\PYZus{}vals\PYZus{}rk}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}rk}\PY{p}{,} \PY{n}{x\PYZus{}vals\PYZus{}rk} \PY{o}{=} \PY{n}{RungeKutta}\PY{p}{(}\PY{p}{[}\PY{n}{stepSize}\PY{p}{]}\PY{p}{,} \PY{n}{w}\PY{p}{,} \PY{n}{zeta}\PY{p}{,} \PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{)}
+    \PY{n}{y\PYZus{}vals\PYZus{}exact}\PY{p}{,} \PY{n}{y\PYZus{}prime\PYZus{}vals\PYZus{}exact}\PY{p}{,} \PY{n}{x\PYZus{}vals\PYZus{}exact} \PY{o}{=} \PY{n}{AnalyticalSolution}\PY{p}{(}\PY{p}{[}\PY{n}{stepSize}\PY{p}{]}\PY{p}{,} \PY{n}{w}\PY{p}{,} \PY{n}{zeta}\PY{p}{,} \PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{y\PYZus{}init\PYZus{}prime}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Compute Absolute Error At Each Time Step}
+    \PY{n}{error\PYZus{}euler} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{y\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}vals\PYZus{}exact}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+    \PY{n}{error\PYZus{}rk} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{y\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}vals\PYZus{}exact}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Store Max Errors For Log\PYZhy{}Log Convergence Plot}
+    \PY{n}{euler\PYZus{}max\PYZus{}errors}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{error\PYZus{}euler}\PY{p}{)}\PY{p}{)}
+    \PY{n}{rk\PYZus{}max\PYZus{}errors}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{error\PYZus{}rk}\PY{p}{)}\PY{p}{)}
+
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Forward Euler}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Runge\PYZhy{}Kutta}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}exact}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}vals\PYZus{}exact}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Analytical}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y(t) vs Analytical \PYZhy{} Step Size: }\PY{l+s+si}{\PYZob{}}\PY{n}{stepSize}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y(t)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}euler}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{error\PYZus{}euler}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Forward Euler Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{x\PYZus{}vals\PYZus{}rk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{error\PYZus{}rk}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Runge\PYZhy{}Kutta Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Absolute Error \PYZhy{} Step Size: }\PY{l+s+si}{\PYZob{}}\PY{n}{stepSize}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{|y\PYZus{}numerical \PYZhy{} y\PYZus{}analytical|}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{n}{euler\PYZus{}max\PYZus{}errors} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{euler\PYZus{}max\PYZus{}errors}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+\PY{n}{rk\PYZus{}max\PYZus{}errors} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{rk\PYZus{}max\PYZus{}errors}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compute Convergence Slopes Via Linear Fit w/ loglog}
+\PY{n}{euler\PYZus{}slope} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{euler\PYZus{}max\PYZus{}errors}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{rk\PYZus{}slope} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{rk\PYZus{}max\PYZus{}errors}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Log\PYZhy{}Log Convergence Plot}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{loglog}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{euler\PYZus{}max\PYZus{}errors}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Forward Euler (slope ≈ }\PY{l+s+si}{\PYZob{}}\PY{n}{euler\PYZus{}slope}\PY{l+s+si}{:}\PY{l+s+s1}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{loglog}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{rk\PYZus{}max\PYZus{}errors}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Runge\PYZhy{}Kutta (slope ≈ }\PY{l+s+si}{\PYZob{}}\PY{n}{rk\PYZus{}slope}\PY{l+s+si}{:}\PY{l+s+s1}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Reference Slopes (Anchored At Smallest Step Size)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{loglog}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{euler\PYZus{}max\PYZus{}errors}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{p}{(}\PY{n}{stepSizes} \PY{o}{/} \PY{n}{stepSizes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O(h) reference}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{loglog}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{rk\PYZus{}max\PYZus{}errors}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{p}{(}\PY{n}{stepSizes} \PY{o}{/} \PY{n}{stepSizes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O(h\PYZca{}4) reference}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Convergence Rates: Error vs Step Size}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Step Size (h)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Max Absolute Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Forward Euler empirical convergence rate: }\PY{l+s+si}{\PYZob{}}\PY{n}{euler\PYZus{}slope}\PY{l+s+si}{:}\PY{l+s+s2}{.3f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (expected ≈ 1)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Runge\PYZhy{}Kutta empirical convergence rate: }\PY{l+s+si}{\PYZob{}}\PY{n}{rk\PYZus{}slope}\PY{l+s+si}{:}\PY{l+s+s2}{.3f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (expected ≈ 4)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{h\PYZus{}max\PYZus{}euler\PYZus{}analytical} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{zeta} \PY{o}{/} \PY{n}{w}
+\PY{n}{h\PYZus{}max\PYZus{}rk\PYZus{}analytical} \PY{o}{=} \PY{l+m+mf}{2.78} \PY{o}{/} \PY{n}{w}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Analytical max stable step size (Forward Euler): h \PYZlt{}= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h\PYZus{}max\PYZus{}euler\PYZus{}analytical}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Analytical max stable step size (RK4):           h \PYZlt{}= }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h\PYZus{}max\PYZus{}rk\PYZus{}analytical}\PY{p}{)}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} CITATIONS (Part 1)}
+\PY{c+c1}{\PYZsh{} AI }
+\PY{c+c1}{\PYZsh{} I used Claude Opus 4.6 to answer this prompt }
+\PY{c+c1}{\PYZsh{} \PYZdq{}}
+\PY{c+c1}{\PYZsh{} I need to plot out my y(t) and v(t), can you plot them over time and also add a phase plot of v(t) vs y(t) for each step size\PYZdq{}}
+\PY{c+c1}{\PYZsh{} \PYZdq{}}
+\PY{c+c1}{\PYZsh{} It produced the code for the plots above. }
+\PY{c+c1}{\PYZsh{} The reason I wanted it to do this is because I didn\PYZsq{}t know how to get the phase plot to work well, and to have things be formatted so nicely}
+
+\PY{c+c1}{\PYZsh{} I used Claude Opus 4.7 to answer this prompt}
+\PY{c+c1}{\PYZsh{} \PYZdq{}Caclulate the analytical solution to this diff eq in numpy.\PYZdq{}\PYZdq{}}
+\PY{c+c1}{\PYZsh{} It produced the analytical solution function (closed\PYZhy{}form for the underdamped}
+\PY{c+c1}{\PYZsh{} harmonic oscillator)}
+\PY{c+c1}{\PYZsh{} The reason I wanted it to do this is because I didn\PYZsq{}t want to go through and do the eigendecomposition by hand (I don\PYZsq{}t think that was the intent of the assignment)}
+
+\PY{c+c1}{\PYZsh{} I used Claude Opus 4.7 to answer this prompt}
+\PY{c+c1}{\PYZsh{} \PYZdq{}Please rewrite the code to do the plotting for the values that have been calculated with the step size error analyses, also what\PYZsq{}s the form for max analyic stability for RK4 and FE for this system\PYZdq{}}
+\PY{c+c1}{\PYZsh{} It produced the code to do the plotting of the error analyses in the log scale, and making it look nicer}
+\PY{c+c1}{\PYZsh{} The reason I wanted it to do this is because I didn\PYZsq{}t want to write the plotting code (not particularily interesting to me)}
+
+
+\PY{c+c1}{\PYZsh{} (Normal) Sources Used:}
+\PY{c+c1}{\PYZsh{} https://www.w3schools.com/python/matplotlib\PYZus{}intro.asp}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+<Figure size 640x480 with 0 Axes>
+    \end{Verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+<Figure size 640x480 with 0 Axes>
+    \end{Verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+<Figure size 640x480 with 0 Axes>
+    \end{Verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_6.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+<Figure size 640x480 with 0 Axes>
+    \end{Verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+<Figure size 640x480 with 0 Axes>
+    \end{Verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_10.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_11.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_12.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_13.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_14.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_1_15.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Forward Euler empirical convergence rate: 50.503 (expected ≈ 1)
+Runge-Kutta empirical convergence rate: 73.788 (expected ≈ 4)
+Analytical max stable step size (Forward Euler): h <= 0.13176470588235295
+Analytical max stable step size (RK4):           h <= 0.32705882352941174
+    \end{Verbatim}
+
+    \section{Part One - Option C (Damped Mechanical
+Oscillator)}\label{part-one---option-c-damped-mechanical-oscillator}
+
+\subsection{Intro \& Model Selection}\label{intro-model-selection}
+
+My real-world system is analyzing how a vehicle suspension responds to
+compression/expansion and progresses through time.
+
+The governing second-order equation is:
+\[\frac{d^2 y}{dt^2} + 2\zeta\omega\frac{dy}{dt} + \omega^2 y = 0\]
+
+System of First-Order Differential Equations: \[
+\begin{bmatrix}
+\dot{y}\\
+\dot{v}
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & 1\\
+-\omega^{2} & -2\zeta\omega
+\end{bmatrix}
+\begin{bmatrix}
+y\\
+v
+\end{bmatrix}
+\]
+
+Some background on what each parameter means:
+
+\begin{itemize}
+\item
+  \textbf{Natural Frequency (ω)} is the undamped oscillation frequency
+  of the suspension system, measured in radians per second. It describes
+  how fast the suspension would bounce up and down if there were no
+  damping (no shock absorber). A higher natural frequency means a
+  stiffer spring system.
+\item
+  \textbf{Damping Ratio (ζ)} is a dimensionless number that measures how
+  much energy is dissipated by the shock absorber relative to the
+  natural oscillation.
+\item
+  \textbf{Damping Coefficient (2ζω)} represents the actual damping force
+  that is proportional to the velocity of the suspension. This is
+  directly related to how much resistance the shock absorber provides as
+  the suspension moves.
+\end{itemize}
+
+\subsection{Parameter Research}\label{parameter-research}
+
+First, I would like to state some prerequisite knowledge for researching
+good parameter values for omega (angular frequency) and zeta (damping
+ratio).
+
+\[\omega = \sqrt{\frac{k}{m}}\]
+
+\[\zeta = \frac{c}{2\sqrt{km}}\]
+
+Where \textbf{k} is the spring constant, \textbf{m} is the mass, and
+\textbf{c} is the damping coefficient.
+
+Now consider a Mercedes-AMG SLC-43 (2016-2020).
+
+Of course, the stiffness of the front and rear suspension is different,
+so for the purposes of our analyses, we'll only consider the dynamics of
+a front corner of the car.
+
+Here are the given values:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Parameter & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Front spring stiffness & 129,350 N/m \\
+Front damping coefficient & 13,890 Ns/m \\
+Mass & 406 kg \\
+\end{longtable}
+}
+
+\emph{NOTE:} The portion of mass lifted by the front suspension is based
+off reasonable engineering assumptions, not measurements.
+
+https://www.mechanics-industry.org/articles/meca/full\_html/2020/04/mi190246/mi190246.html
+
+Based off these measured/calculated values, we can state:
+
+\[\omega = \sqrt{\frac{129{,}350}{406}} = 8.5 \ \text{rad/s}\]
+
+\[\zeta = \frac{13890}{2\sqrt{129{,}350 \cdot 406}} = 0.56\]
+
+Furthermore, I'm assuming initially (t = 0) that the suspension has been
+compressed by 1 m. This could happen, for example, if a car went over a
+speed bump, and we start measuring the instant it leaves the speed bump
+(meaning it starts off compressed 1 m). We are assuming the car kind of
+doesn't hit the road after the speed bump; more so, the car is kind of
+isolated after the speed bump, and the only force acting on the
+suspension is the actual spring-mass-damper.
+
+\subsection{Implementation Approach}\label{implementation-approach}
+
+My approach was pretty natural, to where I defined an A matrix that
+describes how my state vector \textbf{Y} gets transformed to its
+derivative. Then, using the initial condition, I computed the next value
+for the first component of my state vector, and then for the second
+component, I used the updated first component for the calculation of the
+second component of my state vector. This lets me model the second-order
+nature of this ODE.
+
+\subsection{Solution and Comparison}\label{solution-and-comparison}
+
+Generally, both methods work well for sufficiently small step sizes.
+However, RK4 is significantly more accurate/stable at larger step sizes.
+We can see from the diagrams that RK4 almost perfectly matches the
+analytical (exact) solution, as compared to Forward Euler, where the
+deviation from the analytical solution was visible even at the smallest
+step size of 0.01. This just underscores the architecture of these
+integrators. It is important to note that RK4 is still susceptible to
+instability, as for certain chaotic dynamical systems (systems that have
+a sensitive dependence on initial conditions), RK4 will still diverge
+from the exact solution. When working with those systems, special
+integrators like symplectic (Hamiltonian) or variational (Lagrangian)
+integrators track the exact solution significantly more accurately, due
+to them assuming energy must be conserved in the dynamics.
+
+\subsection{Stability Analysis}\label{stability-analysis}
+
+Generally speaking, the smaller the steps that are taken for each
+iteration of RK4 or Forward Euler, the better the results you should
+expect to see. To be more specific, if you were to multiply the size of
+your steps by some arbitrary number \textbf{N}, you should expect to see
+the local error for each step of Forward Euler to change by a factor of
+N\^{}2 (factor of N for global error (assuming non-chaotic dynamics)),
+or with RK4, you should expect to see local error for each step to
+change by a factor of N\^{}5 (factor of N\^{}4 for global error
+(assuming non-chaotic dynamics)). Overall, Forward Euler implied energy
+was being consistently fed into the system, which is known to be false,
+and RK4, at a sufficiently high step size (0.5), also implied that
+energy was transiently growing. If we consider a spring that we
+compress, even assuming no damping or friction, we only expect the
+amplitude to stay the same as the amplitude we pull the spring away from
+the equilibrium. However, our integrators show the spring just
+increasing its max amplitude through time, which is extremely
+unrealistic. This is, of course, an invalid analysis of the system, so
+it's trivial to show that these integrators aren't accurately
+representing the exact solution. In such cases, a method of higher-order
+accuracy is required, or the use of specialized integrators that have
+knowledge of other attributes of your system (like mass/energy
+conservation) is required.
+
+\subsection{Conclusion}\label{conclusion}
+
+Overall, the RK4 integrator performed better for my problem. In general,
+Forward Euler performs fewer computations per time-step, but requires
+orders of magnitude more time steps to match the accuracy of RK4.
+Granted, RK4 does have to perform more calculations per time step (about
+4 times as many as Forward Euler), but it is able to take factors of
+10-20x fewer time steps while maintaining its accuracy. In general, it
+makes sense to use Forward Euler for systems that you know to be quite
+stable, and switch to RK4 when the system dynamics aren't easily
+analyzable for stability. With respect to the lessons learned, I learned
+that to test if you have weird system dynamics, you should use your
+integration method of choice and test really small time steps and
+slightly larger time steps and see if those agree. If not, then you
+should pay more attention to what's happening with your system.
+
+\textbf{NOTE} Claude Opus 4.7 was used in the editing/revising of this
+document
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+
+
+\PY{c+c1}{\PYZsh{} PART 1 \PYZhy{} OPTION D (Mechanical System with High Damping) \PYZhy{} NONLINEAR}
+\PY{c+c1}{\PYZsh{} dy/dx = (\PYZhy{}k/c) * y \PYZhy{} y\PYZca{}2 + (1/c)*(10*sin(x))     \PYZlt{}\PYZhy{}\PYZhy{} the \PYZhy{}y\PYZca{}2 makes it nonlinear in y}
+
+\PY{n}{k} \PY{o}{=} \PY{l+m+mi}{500}
+\PY{n}{c} \PY{o}{=} \PY{l+m+mf}{0.1}
+
+\PY{n}{y\PYZus{}init} \PY{o}{=} \PY{l+m+mi}{1}
+\PY{n}{y\PYZus{}prime} \PY{o}{=} \PY{l+m+mi}{0}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{ForwardEuler}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{}Initialize Arrays That Will Be Returned}
+    \PY{n}{submit\PYZus{}y\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}x\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{stepSize} \PY{o+ow}{in} \PY{n}{stepSizes}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{}Initialize X Values}
+        \PY{n}{x\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{10}\PY{o}{+}\PY{n}{stepSize}\PY{p}{,} \PY{n}{stepSize}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{}Initial Conditions}
+        \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}init}\PY{p}{]}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Forward Euler Integration Scheme}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{+} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{object}\PY{p}{)}
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{NewtonRaphson}\PY{p}{(}\PY{n}{y\PYZus{}n}\PY{p}{,} \PY{n}{x\PYZus{}next}\PY{p}{,} \PY{n}{stepSize}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{initial\PYZus{}guess}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{tol}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}6}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{}Initial Guess (defaults to y\PYZus{}n, the previous step value)}
+    \PY{n}{y} \PY{o}{=} \PY{n}{y\PYZus{}n} \PY{k}{if} \PY{n}{initial\PYZus{}guess} \PY{o+ow}{is} \PY{k+kc}{None} \PY{k}{else} \PY{n}{initial\PYZus{}guess}
+
+    \PY{c+c1}{\PYZsh{}Iteration Counter}
+    \PY{n}{iterations} \PY{o}{=} \PY{l+m+mi}{0}
+
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{max\PYZus{}iter}\PY{p}{)}\PY{p}{:}
+        \PY{n}{iterations} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+        \PY{c+c1}{\PYZsh{}Residual g(y) = y \PYZhy{} y\PYZus{}n \PYZhy{} h * f(x\PYZus{}next, y)}
+        \PY{n}{g} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}n} \PY{o}{\PYZhy{}} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{alpha}\PY{o}{*}\PY{n}{y}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{x\PYZus{}next}\PY{p}{)}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{}Convergence Check}
+        \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{g}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{n}{tol}\PY{p}{:}
+            \PY{k}{return} \PY{n}{y}\PY{p}{,} \PY{n}{iterations}
+
+        \PY{c+c1}{\PYZsh{}Derivative g\PYZsq{}(y) = 1 \PYZhy{} h * df/dy = 1 + h*(k/c) + 2*h*alpha*y}
+        \PY{n}{g\PYZus{}prime} \PY{o}{=} \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c} \PY{o}{\PYZhy{}} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{alpha}\PY{o}{*}\PY{n}{y}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{}Newton Step}
+        \PY{n}{y} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{g}\PY{o}{/}\PY{n}{g\PYZus{}prime}
+
+    \PY{k}{return} \PY{n}{y}\PY{p}{,} \PY{n}{iterations}
+
+
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{BackwardEuler}\PY{p}{(}\PY{n}{stepSizes}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{guess\PYZus{}strategy}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{previous}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{}Initialize Arrays That Will Be Returned}
+    \PY{n}{submit\PYZus{}y\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}x\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{submit\PYZus{}iter\PYZus{}counts} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{stepSize} \PY{o+ow}{in} \PY{n}{stepSizes}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{}Initialize X Values}
+        \PY{n}{x\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{10}\PY{o}{+}\PY{n}{stepSize}\PY{p}{,} \PY{n}{stepSize}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{}Initial Conditions}
+        \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}init}\PY{p}{]}\PY{p}{)}
+        \PY{n}{iter\PYZus{}counts} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Backward Euler Integration Scheme}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{}Choose Initial Guess Based on Strategy}
+            \PY{k}{if} \PY{n}{guess\PYZus{}strategy} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{previous}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+                \PY{n}{guess} \PY{o}{=} \PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+            \PY{k}{elif} \PY{n}{guess\PYZus{}strategy} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{zero}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+                \PY{n}{guess} \PY{o}{=} \PY{l+m+mf}{0.0}
+            \PY{k}{elif} \PY{n}{guess\PYZus{}strategy} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{forward\PYZus{}euler}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+
+                \PY{c+c1}{\PYZsh{}This works by using forward euler as an initial guess that Newton\PYZhy{}Raphson then refines if further}
+                \PY{c+c1}{\PYZsh{}(Reference: https://math.stackexchange.com/questions/152159/how\PYZhy{}to\PYZhy{}correctly\PYZhy{}apply\PYZhy{}newton\PYZhy{}raphson\PYZhy{}method\PYZhy{}to\PYZhy{}backward\PYZhy{}euler\PYZhy{}method)}
+
+                \PY{n}{guess} \PY{o}{=} \PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{+} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c}\PY{p}{)}\PY{o}{*}\PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{alpha}\PY{o}{*}\PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{c}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{10}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+            \PY{k}{elif} \PY{n}{guess\PYZus{}strategy} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{far\PYZus{}off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+                \PY{n}{guess} \PY{o}{=} \PY{l+m+mf}{100.0}
+            \PY{k}{else}\PY{p}{:}
+                \PY{n}{guess} \PY{o}{=} \PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+            \PY{n}{y\PYZus{}next}\PY{p}{,} \PY{n}{iters} \PY{o}{=} \PY{n}{NewtonRaphson}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{stepSize}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,} \PY{n}{alpha}\PY{p}{,} \PY{n}{initial\PYZus{}guess}\PY{o}{=}\PY{n}{guess}\PY{p}{)}
+            \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}next}\PY{p}{)}
+            \PY{n}{iter\PYZus{}counts} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{iter\PYZus{}counts}\PY{p}{,} \PY{n}{iters}\PY{p}{)}
+        \PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{)}
+        \PY{n}{submit\PYZus{}iter\PYZus{}counts}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{iter\PYZus{}counts}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{submit\PYZus{}y\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}x\PYZus{}vals}\PY{p}{,} \PY{n}{submit\PYZus{}iter\PYZus{}counts}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{object}\PY{p}{)}
+
+
+\PY{n}{x\PYZus{}forward\PYZus{}stable} \PY{o}{=} \PY{n}{ForwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.00005}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}
+\PY{n}{x\PYZus{}forward\PYZus{}unstable} \PY{o}{=} \PY{n}{ForwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}
+
+\PY{n}{x\PYZus{}backward\PYZus{}stable} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.00005}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}
+\PY{n}{x\PYZus{}backward\PYZus{}pseudo\PYZus{}unstable} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}
+
+\PY{n}{x\PYZus{}backward\PYZus{}pseudo\PYZus{}pseudo\PYZus{}unstable} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)} \PY{c+c1}{\PYZsh{} This is just to show that the instability gets worse as step size increases (not required for submission, but I thought it would be interesting to include)}
+
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}forward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}forward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Forward Euler \PYZhy{} Stable}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}backward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}backward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Backward Euler \PYZhy{} Stable}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y(t) \PYZhy{} Step Size: 0.00005 }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}forward\PYZus{}unstable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}forward\PYZus{}unstable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Forward Euler \PYZhy{} Unstable}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}backward\PYZus{}pseudo\PYZus{}unstable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}backward\PYZus{}pseudo\PYZus{}unstable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Backward Euler \PYZhy{} Pseudo Unstable}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y(t) \PYZhy{} Step Size: 0.1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}backward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}backward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Backward Euler \PYZhy{} Stable}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y(t) \PYZhy{} Step Size: 0.00005 (Backward Euler)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}backward\PYZus{}pseudo\PYZus{}unstable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}backward\PYZus{}pseudo\PYZus{}unstable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Backward Euler \PYZhy{} Pseudo Unstable}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y(t) \PYZhy{} Step Size: 0.1 (Backward Euler)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}backward\PYZus{}pseudo\PYZus{}pseudo\PYZus{}unstable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}backward\PYZus{}pseudo\PYZus{}pseudo\PYZus{}unstable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Backward Euler \PYZhy{} Pseudo Pseudo Unstable}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y(t) \PYZhy{} Step Size: 0.5 (Backward Euler)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Using the stable Backward Euler solution}
+\PY{n}{x\PYZus{}ref} \PY{o}{=} \PY{n}{x\PYZus{}backward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{y\PYZus{}ref} \PY{o}{=} \PY{n}{x\PYZus{}backward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Fastest time scale: |df/dy| = |−k/c − 2y|}
+\PY{n}{lambda\PYZus{}fast} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c} \PY{o}{\PYZhy{}} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{y\PYZus{}ref}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Slowest time scale: forcing frequency = 1 rad/s}
+\PY{n}{omega\PYZus{}slow} \PY{o}{=} \PY{l+m+mf}{1.0}
+
+\PY{c+c1}{\PYZsh{} Stiffness ratio at each point}
+\PY{n}{stiffness\PYZus{}ratio} \PY{o}{=} \PY{n}{lambda\PYZus{}fast} \PY{o}{/} \PY{n}{omega\PYZus{}slow}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stiffness ratio range: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{stiffness\PYZus{}ratio}\PY{p}{)}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ to }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{stiffness\PYZus{}ratio}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stiffness ratio at steady state (y≈0): }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{k}\PY{o}{/}\PY{n}{c}\PY{p}{)}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} PART 1 \PYZhy{} OPTION D \PYZhy{} PART (c) CONVERGENCE BEHAVIOR}
+\PY{c+c1}{\PYZsh{} Newton\PYZhy{}Raphson iterations are stored in BackwardEuler\PYZsq{}s third return element (index [2])}
+
+\PY{c+c1}{\PYZsh{} Convergence vs Step Size}
+\PY{n}{conv\PYZus{}step\PYZus{}small} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.01}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}
+\PY{n}{conv\PYZus{}step\PYZus{}med} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}
+\PY{n}{conv\PYZus{}step\PYZus{}large} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}step\PYZus{}small}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}step\PYZus{}small}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Step Size: 0.01}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}step\PYZus{}med}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}step\PYZus{}med}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Step Size: 0.1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}step\PYZus{}large}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}step\PYZus{}large}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Step Size: 0.5}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Newton\PYZhy{}Raphson Iterations vs Time \PYZhy{} Effect of Step Size}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Convergence vs Initial Guess Quality}
+\PY{n}{conv\PYZus{}guess\PYZus{}prev} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{guess\PYZus{}strategy}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{previous}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{conv\PYZus{}guess\PYZus{}zero} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{guess\PYZus{}strategy}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{zero}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{conv\PYZus{}guess\PYZus{}fe} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{guess\PYZus{}strategy}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{forward\PYZus{}euler}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{conv\PYZus{}guess\PYZus{}far} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{guess\PYZus{}strategy}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{far\PYZus{}off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}guess\PYZus{}prev}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}guess\PYZus{}prev}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Initial Guess: Previous Step}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}guess\PYZus{}zero}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}guess\PYZus{}zero}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Initial Guess: 0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}guess\PYZus{}fe}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}guess\PYZus{}fe}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Initial Guess: Forward Euler Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}guess\PYZus{}far}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}guess\PYZus{}far}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Initial Guess: 100 (Far Off)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Newton\PYZhy{}Raphson Iterations vs Time \PYZhy{} Effect of Initial Guess}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Convergence vs System Nonlinearity (varying coefficient on y\PYZca{}2)}
+\PY{n}{conv\PYZus{}nl\PYZus{}low} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{conv\PYZus{}nl\PYZus{}med} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\PY{n}{conv\PYZus{}nl\PYZus{}high} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{)}
+\PY{n}{conv\PYZus{}nl\PYZus{}extreme} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.1}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mi}{100000}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}nl\PYZus{}low}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}nl\PYZus{}low}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Nonlinearity Coefficient: 1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}nl\PYZus{}med}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}nl\PYZus{}med}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Nonlinearity Coefficient: 1000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}nl\PYZus{}high}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}nl\PYZus{}high}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Nonlinearity Coefficient: 10000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{conv\PYZus{}nl\PYZus{}extreme}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{conv\PYZus{}nl\PYZus{}extreme}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Nonlinearity Coefficient: 100000}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Newton\PYZhy{}Raphson Iterations vs Time \PYZhy{} Varying Degrees of Nonlinearity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} PART 1 \PYZhy{} OPTION D \PYZhy{} PART (d) SOLUTION QUALITY}
+\PY{c+c1}{\PYZsh{} Reference solution is the very fine\PYZhy{}step Backward Euler computed above (h=0.00005)}
+
+\PY{n}{ref\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{x\PYZus{}backward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+\PY{n}{ref\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{x\PYZus{}backward\PYZus{}stable}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Error Analysis: Compare Various Step Sizes Against Reference}
+\PY{n}{test\PYZus{}step\PYZus{}sizes} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.001}\PY{p}{,} \PY{l+m+mf}{0.005}\PY{p}{,} \PY{l+m+mf}{0.01}\PY{p}{,} \PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{h} \PY{o+ow}{in} \PY{n}{test\PYZus{}step\PYZus{}sizes}\PY{p}{:}
+    \PY{n}{sol} \PY{o}{=} \PY{n}{BackwardEuler}\PY{p}{(}\PY{p}{[}\PY{n}{h}\PY{p}{]}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}
+    \PY{n}{test\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{sol}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+    \PY{n}{test\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{sol}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{}Interpolate Reference Solution Onto Test Grid}
+    \PY{n}{ref\PYZus{}interp} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{test\PYZus{}x}\PY{p}{,} \PY{n}{ref\PYZus{}x}\PY{p}{,} \PY{n}{ref\PYZus{}y}\PY{p}{)}
+    \PY{n}{err} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{test\PYZus{}y} \PY{o}{\PYZhy{}} \PY{n}{ref\PYZus{}interp}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{test\PYZus{}x}\PY{p}{,} \PY{n}{err}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{h = }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Backward Euler Error vs Reference Solution (log scale)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Physical Bounds Check}
+\PY{c+c1}{\PYZsh{} For a damped forced system, |y\PYZus{}steady| should be bounded by \PYZti{}|F0/k| during steady state}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Physical Bounds Check:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Reference Solution Min y: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{ref\PYZus{}y}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Reference Solution Max y: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{ref\PYZus{}y}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Reference Solution Max |y|: }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{ref\PYZus{}y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} For (\PYZhy{}k/c)*y + (10/c)*sin(t) = 0 \PYZob{}y\PYZca{}2 is considered to be negligible because y is so small at steady state\PYZcb{}}
+\PY{c+c1}{\PYZsh{} We get y = (10/k) * sin(t) }
+\PY{c+c1}{\PYZsh{} So steady state amplitude should be \PYZti{}0.2, technically slightly less due to the y\PYZca{}2 term not necessarily being negligible. }
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Expected Steady\PYZhy{}State Amplitude (\PYZti{}10/k): }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{l+m+mi}{10}\PY{o}{/}\PY{n}{k}\PY{p}{)}\PY{p}{)}
+
+
+
+
+
+\PY{c+c1}{\PYZsh{} CITATIONS (Part 2)}
+\PY{c+c1}{\PYZsh{} AI }
+\PY{c+c1}{\PYZsh{} I used Claude Opus 4.7 to answer this prompt}
+\PY{c+c1}{\PYZsh{} \PYZdq{}Please create the plots for the Newton\PYZhy{}Raphson Convergence Behavior and the Bakcward Euler Error (w.r.t step size) analyses\PYZdq{}}
+\PY{c+c1}{\PYZsh{} It produced the code for those plots as you can see above.}
+\PY{c+c1}{\PYZsh{} The reason I wanted it to do this is because I didn\PYZsq{}t want to go through and make the plots look good (It didn\PYZsq{}t seem interesting to me lol)}
+
+
+
+\PY{c+c1}{\PYZsh{} (Normal) Sources Used:}
+\PY{c+c1}{\PYZsh{} https://www.w3schools.com/python/matplotlib\PYZus{}intro.asp}
+\PY{c+c1}{\PYZsh{} https://math.stackexchange.com/questions/152159/how\PYZhy{}to\PYZhy{}correctly\PYZhy{}apply\PYZhy{}newton\PYZhy{}raphson\PYZhy{}method\PYZhy{}to\PYZhy{}backward\PYZhy{}euler\PYZhy{}method}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/x\_/jj5ljqrs24qfhbp9b9l57rq80000gq/T/ipykernel\_51551/3053351621.py:2
+9: RuntimeWarning: overflow encountered in scalar power
+  y\_vals = np.append(y\_vals, y\_vals[i] + stepSize * ((-k/c) * (y\_vals[i]) -
+(y\_vals[i])**2 + (1/c) * 10*np.sin(x\_vals[i])))
+/var/folders/x\_/jj5ljqrs24qfhbp9b9l57rq80000gq/T/ipykernel\_51551/3053351621.py:2
+9: RuntimeWarning: invalid value encountered in scalar subtract
+  y\_vals = np.append(y\_vals, y\_vals[i] + stepSize * ((-k/c) * (y\_vals[i]) -
+(y\_vals[i])**2 + (1/c) * 10*np.sin(x\_vals[i])))
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Stiffness ratio range: 4999.96000631922 to 5002.0
+Stiffness ratio at steady state (y≈0): 5000.0
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_3_10.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Physical Bounds Check:
+Reference Solution Min y: -0.01999684039005925
+Reference Solution Max y: 1.0
+Reference Solution Max |y|: 1.0
+Expected Steady-State Amplitude (\textasciitilde{}10/k): 0.02
+    \end{Verbatim}
+
+    \section{Part Two - Option D (Damped Mechanical
+Oscillator)}\label{part-two---option-d-damped-mechanical-oscillator}
+
+\subsection{Intro \& Model Selection}\label{intro-model-selection}
+
+My real-world system is analyzing how an extremely stiff vehicle
+suspension responds to compression/expansion and progresses through
+time.
+
+The governing equation is:
+
+\[\frac{dy}{dt} = -\frac{k}{c}y - y^2 + \frac{10}{c}\sin(t), \qquad y(0)=1\]
+
+With \(k=500\) and \(c=0.1\):
+
+\[\frac{dy}{dt} = -5000\,y - y^2 + 100\,\sin(t), \qquad y(0)=1\]
+
+\subsection{Background of what each parameter
+means}\label{background-of-what-each-parameter-means}
+
+\begin{itemize}
+\item
+  \textbf{\(y(t)\)} - displacement from equilibrium (m). Positive =
+  compression, negative = extension.
+\item
+  \textbf{\(t\)} - time (s).
+\item
+  \textbf{\(k\)} - spring stiffness (N/m). Sets how strongly the spring
+  pulls the system back toward equilibrium.
+\item
+  \textbf{\(c\)} - viscous damping coefficient (N·s/m). Sets how
+  strongly motion is resisted by damping.
+\item
+  \textbf{\(\frac{k}{c}\)} - relaxation/decay rate (s\(^{-1}\)).
+  Controls how quickly \(y(t)\) is driven back toward 0 in the absence
+  of forcing.
+\item
+  \textbf{\(F(t)=10\sin(t)\)} - external forcing (N). Represents a
+  time-varying input (e.g., simplified road/actuator force).
+\item
+  \textbf{\(y(0)=1\)} - initial displacement (m), meaning the system
+  starts 1 m away from equilibrium at \(t=0\).
+\item
+  \textbf{\(-y^2\)} - \textbf{nonlinear} restoring/dissipative term (I
+  kind of just added this to make things harder for myself\ldots{} and
+  so that performing Newton Raphson w/ Backward Euler makes sense,
+  otherwise if the idfferential equation I'm modeling is linear I can
+  algebraicly solve for Backward Euler's update step).
+\end{itemize}
+
+\emph{NOTE:} I added the ``-y\^{}2'' term to make the differential
+equation non-linear so that it makes sense to use Newton-Raphson w/
+Backward Euler, otherwise Newton-Raphson will just converge in 1
+iteration (because the differential equation is linear, we can just
+solve for the k+1 timestep state in terms of the k time step state).
+
+\subsection{Explanation for Nonlinear Term \& System
+Importance}\label{explanation-for-nonlinear-term-system-importance}
+
+We can consider the nonlinear term in this equation to represent a part
+of the suspension system that activates when the suspension system is
+under a large load. For example, if you have a cushion at the top of
+your suspension spring that exists so that if the spring were to ever
+undergo a large amount of compression, then there's an extra layer of
+cushioning before the spring directly contacts the hull of the car.
+Therefore, this differential equation more accurately represents the
+system, as compared to an idealized Hooke's Law. Obviously, this system
+is relevant for engineers to study, because creating efficient and
+performant suspension systems is of significant benefit to humanity.
+
+\subsection{Demonstration of
+Stiffness}\label{demonstration-of-stiffness}
+
+As you can see, if we use Forward Euler on this system with a relatively
+small step size (of 0.1), we can see behavior that indicates Forward
+Euler isn't accurately modeling the system's dynamics. In the plot, we
+can see Forward Euler extremely sharply decrease to an extremely low
+value, while Backward Euler stays much more stable and accurate.
+Furthermore, as you can see, the ratio of the fastest to slowest time
+scales is \textasciitilde5000 for each time step (with the range being
+from \textasciitilde4999 to 5000). This means some dynamics happen 5000
+times faster than other dynamics in the system, which is a hallmark of
+stiff differential equations. By the way, the reason why there are
+different ratios for each time step is due to the non-linear term in the
+differential equation.
+
+\subsubsection{A Note on The Impracticality of Explicit Methods for
+Stiff Differential
+Equations}\label{a-note-on-the-impracticality-of-explicit-methods-for-stiff-differential-equations}
+
+Now that we are able to see that our system is stiff, it's important to
+note that explicit methods like Forward Euler are impractical to model
+these systems. Assuming purely linear dynamics, Forward Euler would
+require a step size of \textasciitilde0.00005. Imagine if you wanted to
+know what the system was doing after 5 seconds. You would need to
+compute 100,000 time steps to be able to calculate your state at 5
+seconds. Now consider an implicit method like Backward Euler, where you
+can increase your step size to \textasciitilde0.1 and arrive at the
+state after just 50 time steps. Clearly, one solution is an order of
+magnitude swifter than the other.
+
+\subsection{Analytical Solution for the Backward Euler Implicit
+Equation}\label{analytical-solution-for-the-backward-euler-implicit-equation}
+
+Starting from the Backward Euler scheme:
+
+\[y_{n+1} = y_n + h\left(-\frac{k}{c}y_{n+1} - y_{n+1}^2 + \frac{10}{c}\sin(t_{n+1})\right)\]
+
+Rearranging all terms to one side:
+
+\[h\,y_{n+1}^2 + \left(1 + \frac{hk}{c}\right)y_{n+1} - \left(y_n + \frac{10h}{c}\sin(t_{n+1})\right) = 0\]
+
+This is a standard quadratic \(ay^2 + by + c_0 = 0\) with:
+
+\[a = h, \quad b = 1 + \frac{hk}{c}, \quad c_0 = -\left(y_n + \frac{10h}{c}\sin(t_{n+1})\right)\]
+
+Solved via the quadratic formula:
+
+\[y_{n+1} = \frac{-b \pm \sqrt{b^2 - 4ac_0}}{2a}\]
+
+We select the root closer to \(y_n\) (typically the ``\(-\)'' branch
+since \(b > 0\)).
+
+Although this particular nonlinearity (\(-y^2\)) yields a closed-form
+quadratic, Newton-Raphson is used here because most nonlinear implicit
+equations (cubics, transcendentals, coupled systems) cannot be solved
+analytically.
+
+\textbf{NOTE:} I used Claude Opus 4.6 to format this proof, because I'm
+not great at Markdown Math Notation.
+
+\subsection{Update Step For
+Newton-Raphson}\label{update-step-for-newton-raphson}
+
+Newton-Raphson iteratively solves the implicit Backward Euler residual
+\(g(y) = 0\):
+
+\[g(y) = y - y_n - h\left(-\frac{k}{c}y - y^2 + \frac{10}{c}\sin(t_{n+1})\right)\]
+
+The Jacobian (derivative of the residual with respect to \(y\)):
+
+\[g'(y) = 1 + \frac{hk}{c} + 2hy\]
+
+The Newton-Raphson update formula:
+
+\[y^{(j+1)} = y^{(j)} - \frac{g(y^{(j)})}{g'(y^{(j)})}\]
+
+Starting from initial guess \(y^{(0)} = y_n\), iterate until
+\(|g(y^{(j)})| < \text{tol}\).
+
+\textbf{NOTE:} I used Claude Opus 4.6 to format this proof, because I'm
+not great at Markdown Math Notation.
+
+\subsection{Results \& Analysis}\label{results-analysis}
+
+When looking at the plots above, when I say ``Pseudo Unstable,'' I mean
+that I used a step size for Backward Euler that would make Forward Euler
+diverge (not that the Backward Euler solution is diverging). As you can
+tell, even for larger step sizes, Backward Euler w/ Newton-Raphson
+solver is showing how it handles the fast transient decay, and also
+tracks the long-term cyclic growth modeled by the sine wave. To see
+this, look how, at the beginning, Backwards Euler tracks the sharp
+decline well, and then immediately shifts to behaving like a sine wave.
+That shows we are able to handle the true stiff nature of this ODE. As
+you can see from the plots, having smaller step sizes improves the
+convergence speed of the Newton-Raphson solver. Also, the quality of the
+initial guess matters. A good starting point would be to use the
+previous state as your initial guess for the Newton-Raphson solver,
+implying you took a small enough time step that your \textbf{t+1} state
+is close to your \textbf{t} state. However, after researching online, I
+found out that using the Forward Euler method to find your t+1 state,
+and then feeding that into the Newton-Raphson solver as an initial
+guess, leads to quicker convergence. Furthermore, smaller non-linearity
+on your ODE results in the Newton-Raphson solver taking fewer and fewer
+iterations to converge. Lastly, having a smaller step size results in
+the errors of the Backward Euler method being smaller.
+
+\subsection{Performance Analysis}\label{performance-analysis}
+
+The main thing to consider here is how many total operations each method
+needs to get a solution out to \(t = 10\). Forward Euler is cheap per
+step (just one function evaluation), but because it needs \(h < 0.0004\)
+to not blow up, you end up needing around 200,000 steps. Backward Euler
+costs more per step because you have to run Newton-Raphson, but you can
+take way bigger steps.
+
+When considering performance, you can consider the number of operations
+each method takes. Forward Euler is an extremely ``cheap'' integration
+scheme, where it does one evaluation every time step. However, in the
+case of stiff ODEs, for it to remain numerically stable, you are forced
+to have a timestep on the order of 0.0005. To get to t=10, you have to
+iterate roughly 200,000 times. Backward Euler, on the contrary, is more
+expensive per time step; however, you can take orders of magnitude fewer
+time steps.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Metric
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Forward Euler} (\(h = 0.00005\))
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Backward Euler} (\(h = 0.01\))
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Backward Euler} (\(h = 0.1\))
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Steps to \(t = 10\) & 200,000 & 1,000 & 100 \\
+NR iters per step & 0 & \textasciitilde2-3 & \textasciitilde2-3 \\
+Total function evals & \textasciitilde200,000 &
+\textasciitilde2,000-3,000 & \textasciitilde200-300 \\
+Stability & Barely stable & Very stable & Very stable \\
+Accuracy vs reference & Is the reference & Very close & Slight
+smoothing \\
+\end{longtable}
+}
+
+So even though Backward Euler does \textasciitilde3x more work per step
+(computing \(g\), \(g'\), and the Newton update), the fact that it can
+take steps that are 2,000x larger completely dominates the comparison.
+Backward Euler at \(h = 0.1\) does roughly 200-300 total function
+evaluations compared to Forward Euler's 200,000. That's about a 1000x
+reduction in total compute, which makes Backward Euler the better choice
+on the compute front.
+
+With respect to accuracy, it is true that if you pick a sufficiently
+small step size for Forward Euler, you can get more accurate results
+than Backward Euler. However, you would need to perform orders of
+magnitude more computations for that slight edge. In fact, you would be
+far better off slightly lowering the step size of Backward Euler
+instead, where you are getting increased accuracy while not compromising
+on the efficiency front.
+
+My practical recommendation would be: if you're working with a stiff
+system like this one (stiffness ratio \textasciitilde5000), just use
+Backward Euler with Newton-Raphson and pick your step size based on
+accuracy, not stability. That's the whole point of implicit methods. If
+you want to squeeze more performance out, the adaptive step size
+controller is the way to go, because it automatically takes tiny steps
+during the initial transient and big steps during the steady-state sine
+wave tracking.
+
+In general, if you are working with complex and stiff dynamics, it's
+illogical to use Forward Euler. You are just spending too much compute
+when you don't need to. Instead, you should use methods like Backward
+Euler that are structurally more robust integration schemes. Granted,
+Backward Euler is an implicit method, so you need Newton-Raphson to
+handle non-linear dynamics, but that's still a significantly beneficial
+option, rather than accepting the incredibly small time-steps that
+Forward Euler forces you to use. Furthermore, there do exist systems
+where it may make even more sense to use different integration schemes
+like Symplectic or Variational integrators. These are used when you know
+your system conserves energy, and therefore these integration schemes
+will use this fact to ensure the energy doesn't asymptotically grow,
+thereby increasing stability to an extent that, in some cases, beats
+Backward Euler or even RK4.
+
+\subsection{Conclusion}\label{conclusion}
+
+Overall, I learned that it's important to consider your system dynamics
+when designing integrators for them. I also learned about the tradeoff
+between computational complexity and accuracy. Furthermore, there's no
+real one integrator that's the ``best''. It's all tradeoffs. For
+example, Forward Euler could be the best solution if you have extremely
+stable linear dynamics. This is because it is extremely simple
+computationally, and it will have pretty good efficiency/accuracy.
+However, for other cases (like Stiff ODEs), Implicit Methods (like
+Backwards Euler) may be better suited to handle the task. Some
+challenges I faced were figuring out how to incorporate Forward Euler
+``Guesses'' into the Newton-Raphson method of Backward Euler to improve
+convergence speed. Another challenge was dealing with the non-linear
+nature of the ODE. I know I made it harder for myself, but I'm pleased
+with how much more I was able to learn because of it.
+
+\textbf{NOTE} Claude Opus 4.7 was used in the editing/revising of this
+document
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+
+\PY{c+c1}{\PYZsh{} Damped Newton\PYZhy{}Raphson solver for the Backward Euler residual.}
+\PY{c+c1}{\PYZsh{} Solves g(y) = y \PYZhy{} y\PYZus{}n \PYZhy{} h*f(y, t\PYZus{}\PYZob{}n+1\PYZcb{}) = 0 where f is our nonlinear ODE RHS.}
+\PY{c+c1}{\PYZsh{} When damping is on, we backtrack alpha (halving each time) until the residual}
+\PY{c+c1}{\PYZsh{} actually decreases, which keeps things stable for aggressive step sizes.}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{DampedNewtonRaphson}\PY{p}{(}\PY{n}{y\PYZus{}n}\PY{p}{,} \PY{n}{x\PYZus{}next}\PY{p}{,} \PY{n}{stepSize}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,} \PY{n}{tol}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}6}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{,} \PY{n}{alpha\PYZus{}min}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}4}\PY{p}{,} \PY{n}{y0}\PY{o}{=}\PY{k+kc}{None}\PY{p}{,} \PY{n}{damping}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} initial guess defaults to the previous state if not provided}
+    \PY{n}{y} \PY{o}{=} \PY{n}{y\PYZus{}n} \PY{k}{if} \PY{n}{y0} \PY{o+ow}{is} \PY{k+kc}{None} \PY{k}{else} \PY{n}{y0}
+    \PY{n}{iters} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{total\PYZus{}backtracks} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{damping\PYZus{}used} \PY{o}{=} \PY{k+kc}{False}
+    \PY{n}{final\PYZus{}alpha} \PY{o}{=} \PY{l+m+mf}{1.0}
+    \PY{n}{converged} \PY{o}{=} \PY{k+kc}{False}
+    \PY{n}{line\PYZus{}search\PYZus{}failed} \PY{o}{=} \PY{k+kc}{False}
+
+    \PY{c+c1}{\PYZsh{} tracking history for plotting/diagnostics later}
+    \PY{n}{residual\PYZus{}history} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{alpha\PYZus{}history} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{backtrack\PYZus{}history} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{max\PYZus{}iter}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} residual g(y) for the implicit Backward Euler equation}
+        \PY{n}{g} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}n} \PY{o}{\PYZhy{}} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{y}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{x\PYZus{}next}\PY{p}{)}\PY{p}{)}
+        \PY{n}{residual\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{g}\PY{p}{)}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} converged if residual is below tolerance}
+        \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{g}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{n}{tol}\PY{p}{:}
+            \PY{n}{converged} \PY{o}{=} \PY{k+kc}{True}
+            \PY{k}{break}
+
+        \PY{c+c1}{\PYZsh{} Jacobian g\PYZsq{}(y) = 1 + h*k/c + 2*h*y}
+        \PY{n}{g\PYZus{}prime} \PY{o}{=} \PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c} \PY{o}{\PYZhy{}} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{y}\PY{p}{)}
+        \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{g\PYZus{}prime}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{l+m+mf}{1e\PYZhy{}15}\PY{p}{:}
+            \PY{k}{break}
+
+        \PY{c+c1}{\PYZsh{} full Newton step direction}
+        \PY{n}{delta} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{g}\PY{o}{/}\PY{n}{g\PYZus{}prime}
+
+        \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{1.0}
+        \PY{n}{backtracks} \PY{o}{=} \PY{l+m+mi}{0}
+
+        \PY{c+c1}{\PYZsh{} backtracking line search: shrink alpha until residual decreases}
+        \PY{k}{if} \PY{n}{damping}\PY{p}{:}
+            \PY{k}{while} \PY{k+kc}{True}\PY{p}{:}
+                \PY{n}{y\PYZus{}trial} \PY{o}{=} \PY{n}{y} \PY{o}{+} \PY{n}{alpha}\PY{o}{*}\PY{n}{delta}
+                \PY{n}{g\PYZus{}trial} \PY{o}{=} \PY{n}{y\PYZus{}trial} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}n} \PY{o}{\PYZhy{}} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{n}{y\PYZus{}trial} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}trial}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{x\PYZus{}next}\PY{p}{)}\PY{p}{)}
+
+                \PY{c+c1}{\PYZsh{} found a step that reduces residual, accept it}
+                \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{g\PYZus{}trial}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{g}\PY{p}{)}\PY{p}{:}
+                    \PY{k}{break}
+
+                \PY{c+c1}{\PYZsh{} alpha got too small, give up on this iteration}
+                \PY{k}{if} \PY{n}{alpha} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{alpha\PYZus{}min}\PY{p}{:}
+                    \PY{n}{line\PYZus{}search\PYZus{}failed} \PY{o}{=} \PY{k+kc}{True}
+                    \PY{k}{break}
+
+                \PY{n}{alpha} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{n}{alpha}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{alpha\PYZus{}min}\PY{p}{)}
+                \PY{n}{backtracks} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+
+            \PY{k}{if} \PY{n}{line\PYZus{}search\PYZus{}failed}\PY{p}{:}
+                \PY{n}{final\PYZus{}alpha} \PY{o}{=} \PY{n}{alpha}
+                \PY{n}{alpha\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{alpha}\PY{p}{)}
+                \PY{n}{backtrack\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{backtracks}\PY{p}{)}
+                \PY{k}{break}
+
+        \PY{c+c1}{\PYZsh{} flag whether damping was actually needed for this step}
+        \PY{k}{if} \PY{n}{backtracks} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{damping\PYZus{}used} \PY{o}{=} \PY{k+kc}{True}
+
+        \PY{n}{total\PYZus{}backtracks} \PY{o}{+}\PY{o}{=} \PY{n}{backtracks}
+        \PY{n}{final\PYZus{}alpha} \PY{o}{=} \PY{n}{alpha}
+
+        \PY{n}{alpha\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{alpha}\PY{p}{)}
+        \PY{n}{backtrack\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{backtracks}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} apply the (possibly damped) Newton update}
+        \PY{n}{y} \PY{o}{=} \PY{n}{y} \PY{o}{+} \PY{n}{alpha}\PY{o}{*}\PY{n}{delta}
+        \PY{n}{iters} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+
+        \PY{c+c1}{\PYZsh{} quick check after update in case we hit tolerance}
+        \PY{n}{g\PYZus{}new} \PY{o}{=} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}n} \PY{o}{\PYZhy{}} \PY{n}{stepSize} \PY{o}{*} \PY{p}{(}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{k}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{y}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{c}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{10}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{x\PYZus{}next}\PY{p}{)}\PY{p}{)}
+        \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{g\PYZus{}new}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{n}{tol}\PY{p}{:}
+            \PY{n}{residual\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{g\PYZus{}new}\PY{p}{)}\PY{p}{)}
+            \PY{n}{converged} \PY{o}{=} \PY{k+kc}{True}
+            \PY{k}{break}
+
+    \PY{c+c1}{\PYZsh{} bundle up everything for the caller}
+    \PY{n}{info} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{residuals}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{residual\PYZus{}history}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{alphas}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{alpha\PYZus{}history}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{backtracks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{backtrack\PYZus{}history}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{line\PYZus{}search\PYZus{}failed}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{line\PYZus{}search\PYZus{}failed}
+    \PY{p}{\PYZcb{}}
+
+    \PY{k}{return} \PY{n}{y}\PY{p}{,} \PY{n}{iters}\PY{p}{,} \PY{n}{total\PYZus{}backtracks}\PY{p}{,} \PY{n}{final\PYZus{}alpha}\PY{p}{,} \PY{n}{damping\PYZus{}used}\PY{p}{,} \PY{n}{converged}\PY{p}{,} \PY{n}{info}
+
+
+\PY{c+c1}{\PYZsh{} Adaptive Backward Euler with step doubling for local error estimation.}
+\PY{c+c1}{\PYZsh{} At each attempted step we compute (1) one full step of size h and}
+\PY{c+c1}{\PYZsh{} (2) two half\PYZhy{}steps of size h/2, then estimate error from their difference.}
+\PY{c+c1}{\PYZsh{} Accept if err \PYZlt{}= tol, otherwise shrink h and retry.}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{AdaptiveBackwardEuler}\PY{p}{(}\PY{n}{h0}\PY{p}{,} \PY{n}{tol}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,} \PY{n}{y\PYZus{}init}\PY{p}{,} \PY{n}{x\PYZus{}end}\PY{o}{=}\PY{l+m+mf}{10.0}\PY{p}{,} \PY{n}{h\PYZus{}min}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}6}\PY{p}{,} \PY{n}{h\PYZus{}max}\PY{o}{=}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{n}{safety}\PY{o}{=}\PY{l+m+mf}{0.9}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} accepted trajectory}
+    \PY{n}{x\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.0}\PY{p}{]}
+    \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{n}{y\PYZus{}init}\PY{p}{]}
+    \PY{n}{h\PYZus{}history} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{c+c1}{\PYZsh{} everything we attempted (including rejected) for diagnostic plots}
+    \PY{n}{h\PYZus{}attempts} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{x\PYZus{}attempts} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{err\PYZus{}history} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{accepted\PYZus{}flags} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{iter\PYZus{}history} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{backtrack\PYZus{}step\PYZus{}history} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{c+c1}{\PYZsh{} running counters}
+    \PY{n}{accepted} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{rejected} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{nr\PYZus{}failures} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{total\PYZus{}iters} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{total\PYZus{}backtracks} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{damped\PYZus{}steps} \PY{o}{=} \PY{l+m+mi}{0}
+
+    \PY{n}{h} \PY{o}{=} \PY{n}{h0}
+    \PY{k}{while} \PY{n}{x\PYZus{}vals}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{x\PYZus{}end}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} clamp h to the allowed range}
+        \PY{n}{h} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{n}{h\PYZus{}min}\PY{p}{,} \PY{n+nb}{min}\PY{p}{(}\PY{n}{h\PYZus{}max}\PY{p}{,} \PY{n}{h}\PY{p}{)}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} don\PYZsq{}t overshoot the end of the integration interval}
+        \PY{k}{if} \PY{n}{x\PYZus{}vals}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{h} \PY{o}{\PYZgt{}} \PY{n}{x\PYZus{}end}\PY{p}{:}
+            \PY{n}{h} \PY{o}{=} \PY{n}{x\PYZus{}end} \PY{o}{\PYZhy{}} \PY{n}{x\PYZus{}vals}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+
+        \PY{n}{x\PYZus{}n} \PY{o}{=} \PY{n}{x\PYZus{}vals}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+        \PY{n}{y\PYZus{}n} \PY{o}{=} \PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+
+        \PY{c+c1}{\PYZsh{} solve once with full step h}
+        \PY{n}{y\PYZus{}h}\PY{p}{,} \PY{n}{n1}\PY{p}{,} \PY{n}{b1}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{d1}\PY{p}{,} \PY{n}{c1}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{DampedNewtonRaphson}\PY{p}{(}\PY{n}{y\PYZus{}n}\PY{p}{,} \PY{n}{x\PYZus{}n} \PY{o}{+} \PY{n}{h}\PY{p}{,} \PY{n}{h}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} then twice with half steps to get the more accurate \PYZdq{}ground truth\PYZdq{}}
+        \PY{n}{y\PYZus{}half}\PY{p}{,} \PY{n}{n2}\PY{p}{,} \PY{n}{b2}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{d2}\PY{p}{,} \PY{n}{c2}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{DampedNewtonRaphson}\PY{p}{(}\PY{n}{y\PYZus{}n}\PY{p}{,} \PY{n}{x\PYZus{}n} \PY{o}{+} \PY{n}{h}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{h}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{)}
+        \PY{n}{y\PYZus{}h2}\PY{p}{,} \PY{n}{n3}\PY{p}{,} \PY{n}{b3}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{d3}\PY{p}{,} \PY{n}{c3}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{DampedNewtonRaphson}\PY{p}{(}\PY{n}{y\PYZus{}half}\PY{p}{,} \PY{n}{x\PYZus{}n} \PY{o}{+} \PY{n}{h}\PY{p}{,} \PY{n}{h}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} cost accounting: each attempt does 3 NR solves}
+        \PY{n}{step\PYZus{}iters} \PY{o}{=} \PY{n}{n1} \PY{o}{+} \PY{n}{n2} \PY{o}{+} \PY{n}{n3}
+        \PY{n}{step\PYZus{}backtracks} \PY{o}{=} \PY{n}{b1} \PY{o}{+} \PY{n}{b2} \PY{o}{+} \PY{n}{b3}
+
+        \PY{n}{total\PYZus{}iters} \PY{o}{+}\PY{o}{=} \PY{n}{step\PYZus{}iters}
+        \PY{n}{total\PYZus{}backtracks} \PY{o}{+}\PY{o}{=} \PY{n}{step\PYZus{}backtracks}
+
+        \PY{k}{if} \PY{n}{d1} \PY{o+ow}{or} \PY{n}{d2} \PY{o+ow}{or} \PY{n}{d3}\PY{p}{:}
+            \PY{n}{damped\PYZus{}steps} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+
+        \PY{n}{h\PYZus{}attempts}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{h}\PY{p}{)}
+        \PY{n}{x\PYZus{}attempts}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x\PYZus{}n}\PY{p}{)}
+        \PY{n}{iter\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{step\PYZus{}iters}\PY{p}{)}
+        \PY{n}{backtrack\PYZus{}step\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{step\PYZus{}backtracks}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} if any of the three NR solves failed to converge, reject and shrink h hard}
+        \PY{k}{if} \PY{o+ow}{not} \PY{p}{(}\PY{n}{c1} \PY{o+ow}{and} \PY{n}{c2} \PY{o+ow}{and} \PY{n}{c3}\PY{p}{)}\PY{p}{:}
+            \PY{n}{nr\PYZus{}failures} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{rejected} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{err\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{)}
+            \PY{n}{accepted\PYZus{}flags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
+
+            \PY{n}{h} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{n}{h\PYZus{}min}\PY{p}{,} \PY{n}{h}\PY{o}{/}\PY{l+m+mi}{4}\PY{p}{)}
+
+            \PY{k}{if} \PY{n}{h} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{h\PYZus{}min}\PY{p}{:}
+                \PY{k}{break}
+
+            \PY{k}{continue}
+
+        \PY{c+c1}{\PYZsh{} local error estimate from step doubling}
+        \PY{n}{err} \PY{o}{=} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{y\PYZus{}h2} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}h}\PY{p}{)}
+        \PY{n}{err\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{err}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} PI\PYZhy{}style step size update; sqrt because Backward Euler is order 1}
+        \PY{c+c1}{\PYZsh{} so local error scales like h\PYZca{}2}
+        \PY{n}{eps} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}14}
+        \PY{n}{h\PYZus{}new} \PY{o}{=} \PY{n}{h} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{tol} \PY{o}{/} \PY{p}{(}\PY{n}{err} \PY{o}{+} \PY{n}{eps}\PY{p}{)}\PY{p}{)}
+        \PY{n}{h\PYZus{}new} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{n}{h\PYZus{}min}\PY{p}{,} \PY{n+nb}{min}\PY{p}{(}\PY{n}{h\PYZus{}max}\PY{p}{,} \PY{n}{safety} \PY{o}{*} \PY{n}{h\PYZus{}new}\PY{p}{)}\PY{p}{)}
+
+        \PY{k}{if} \PY{n}{err} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{tol}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} accept the more accurate (half\PYZhy{}step) solution}
+            \PY{n}{x\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x\PYZus{}n} \PY{o}{+} \PY{n}{h}\PY{p}{)}
+            \PY{n}{y\PYZus{}vals}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}h2}\PY{p}{)}
+            \PY{n}{h\PYZus{}history}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{h}\PY{p}{)}
+
+            \PY{n}{accepted} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{accepted\PYZus{}flags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+
+            \PY{n}{h} \PY{o}{=} \PY{n}{h\PYZus{}new}
+        \PY{k}{else}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} reject and try again with the smaller h}
+            \PY{n}{rejected} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+            \PY{n}{accepted\PYZus{}flags}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{k+kc}{False}\PY{p}{)}
+
+            \PY{n}{h} \PY{o}{=} \PY{n}{h\PYZus{}new}
+
+            \PY{k}{if} \PY{n}{h} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{h\PYZus{}min}\PY{p}{:}
+                \PY{k}{break}
+
+    \PY{n}{stats} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{accepted}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rejected}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{rejected}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nr\PYZus{}failures}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{nr\PYZus{}failures}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}iters}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{total\PYZus{}iters}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}backtracks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{total\PYZus{}backtracks}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{damped\PYZus{}steps}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{damped\PYZus{}steps}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{h\PYZus{}attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{h\PYZus{}attempts}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x\PYZus{}attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{x\PYZus{}attempts}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{err\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{err\PYZus{}history}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted\PYZus{}flags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{accepted\PYZus{}flags}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iter\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{iter\PYZus{}history}\PY{p}{)}\PY{p}{,}
+        \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{backtrack\PYZus{}step\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{backtrack\PYZus{}step\PYZus{}history}\PY{p}{)}
+    \PY{p}{\PYZcb{}}
+
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{h\PYZus{}history}\PY{p}{)}\PY{p}{,} \PY{n}{stats}
+
+
+\PY{c+c1}{\PYZsh{} Plain Backward Euler with a fixed step size, used as the comparison baseline}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{BackwardEulerFixed}\PY{p}{(}\PY{n}{h}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{n}{y\PYZus{}init}\PY{p}{)}\PY{p}{:}
+    \PY{n}{x\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{10}\PY{o}{+}\PY{n}{h}\PY{p}{,} \PY{n}{h}\PY{p}{)}
+    \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}init}\PY{p}{]}\PY{p}{)}
+    \PY{n}{iter\PYZus{}counts} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{c+c1}{\PYZsh{} march forward one step at a time, calling NR for each implicit solve}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+        \PY{n}{y\PYZus{}next}\PY{p}{,} \PY{n}{n}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{DampedNewtonRaphson}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}vals}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{h}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{)}
+        \PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{y\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}next}\PY{p}{)}
+        \PY{n}{iter\PYZus{}counts}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{n}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{x\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}vals}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{iter\PYZus{}counts}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Setup for the Damped vs Undamped NR comparison.}
+\PY{c+c1}{\PYZsh{} We deliberately pick a starting guess near the parabola\PYZsq{}s vertex to make}
+\PY{c+c1}{\PYZsh{} the undamped version misbehave, so the benefit of damping is visible.}
+\PY{n}{h\PYZus{}test} \PY{o}{=} \PY{l+m+mf}{5.0}
+\PY{n}{x\PYZus{}test} \PY{o}{=} \PY{l+m+mf}{0.1}
+\PY{n}{y\PYZus{}n\PYZus{}test} \PY{o}{=} \PY{l+m+mf}{0.0}
+\PY{n}{nr\PYZus{}demo\PYZus{}max\PYZus{}iter} \PY{o}{=} \PY{l+m+mi}{8}
+
+\PY{n}{y\PYZus{}vertex} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{+} \PY{n}{h\PYZus{}test}\PY{o}{*}\PY{n}{k}\PY{o}{/}\PY{n}{c}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{h\PYZus{}test}\PY{p}{)}\PY{p}{)}
+\PY{n}{y0\PYZus{}bad} \PY{o}{=} \PY{n}{y\PYZus{}vertex} \PY{o}{+} \PY{l+m+mf}{0.5}
+
+\PY{c+c1}{\PYZsh{} undamped run: full Newton steps every iteration}
+\PY{n}{y\PYZus{}u}\PY{p}{,} \PY{n}{n\PYZus{}u}\PY{p}{,} \PY{n}{b\PYZus{}u}\PY{p}{,} \PY{n}{a\PYZus{}u}\PY{p}{,} \PY{n}{d\PYZus{}u}\PY{p}{,} \PY{n}{c\PYZus{}u}\PY{p}{,} \PY{n}{info\PYZus{}u} \PY{o}{=} \PY{n}{DampedNewtonRaphson}\PY{p}{(}
+    \PY{n}{y\PYZus{}n\PYZus{}test}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{h\PYZus{}test}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}
+    \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{n}{nr\PYZus{}demo\PYZus{}max\PYZus{}iter}\PY{p}{,} \PY{n}{y0}\PY{o}{=}\PY{n}{y0\PYZus{}bad}\PY{p}{,} \PY{n}{damping}\PY{o}{=}\PY{k+kc}{False}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} damped run: same setup but with backtracking line search}
+\PY{n}{y\PYZus{}d}\PY{p}{,} \PY{n}{n\PYZus{}d}\PY{p}{,} \PY{n}{b\PYZus{}d}\PY{p}{,} \PY{n}{a\PYZus{}d}\PY{p}{,} \PY{n}{d\PYZus{}d}\PY{p}{,} \PY{n}{c\PYZus{}d}\PY{p}{,} \PY{n}{info\PYZus{}d} \PY{o}{=} \PY{n}{DampedNewtonRaphson}\PY{p}{(}
+    \PY{n}{y\PYZus{}n\PYZus{}test}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{h\PYZus{}test}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}
+    \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{n}{nr\PYZus{}demo\PYZus{}max\PYZus{}iter}\PY{p}{,} \PY{n}{y0}\PY{o}{=}\PY{n}{y0\PYZus{}bad}\PY{p}{,} \PY{n}{damping}\PY{o}{=}\PY{k+kc}{True}
+\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Part 3.1 Newton\PYZhy{}Raphson comparison}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{h = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h\PYZus{}test}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, x\PYZus{}next = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, initial guess = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{y0\PYZus{}bad}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Undamped: converged = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{c\PYZus{}u}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, iterations = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{n\PYZus{}u}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Damped: converged = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{c\PYZus{}d}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, iterations = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{n\PYZus{}d}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, total backtracks = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{b\PYZus{}d}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final alpha = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{a\PYZus{}d}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, damping needed = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{d\PYZus{}d}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Backtracks per NR iteration:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{info\PYZus{}d}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{backtracks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Alpha per NR iteration:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{info\PYZus{}d}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{alphas}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} residual convergence: damped should drop faster / not blow up}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{info\PYZus{}u}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{residuals}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Undamped NR}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{info\PYZus{}d}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{residuals}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Damped NR}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NR iteration}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{|residual|}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Damped vs Undamped Newton\PYZhy{}Raphson Residuals}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} how many backtracks each iteration needed (mostly the first)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{info\PYZus{}d}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{backtracks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{info\PYZus{}d}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{backtracks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NR iteration}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{backtracking steps}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Backtracking Steps per Damped NR Iteration}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} the actual alpha values used after backtracking}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{info\PYZus{}d}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{alphas}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{info\PYZus{}d}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{alphas}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yscale}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NR iteration}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{alpha}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final Alpha Used per Damped NR Iteration}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Adaptive Backward Euler with a moderate tolerance and starting step}
+\PY{n}{tol\PYZus{}target} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}4}
+\PY{n}{h0\PYZus{}start} \PY{o}{=} \PY{l+m+mf}{2.0}
+\PY{n}{h\PYZus{}min\PYZus{}val} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}6}
+\PY{n}{h\PYZus{}max\PYZus{}val} \PY{o}{=} \PY{l+m+mf}{2.0}
+
+\PY{n}{x\PYZus{}a}\PY{p}{,} \PY{n}{y\PYZus{}a}\PY{p}{,} \PY{n}{h\PYZus{}hist}\PY{p}{,} \PY{n}{stats} \PY{o}{=} \PY{n}{AdaptiveBackwardEuler}\PY{p}{(}
+    \PY{n}{h0}\PY{o}{=}\PY{n}{h0\PYZus{}start}\PY{p}{,} \PY{n}{tol}\PY{o}{=}\PY{n}{tol\PYZus{}target}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{n}{k}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{c}\PY{p}{,} \PY{n}{y\PYZus{}init}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}
+    \PY{n}{h\PYZus{}min}\PY{o}{=}\PY{n}{h\PYZus{}min\PYZus{}val}\PY{p}{,} \PY{n}{h\PYZus{}max}\PY{o}{=}\PY{n}{h\PYZus{}max\PYZus{}val}
+\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Part 3.2 Adaptive Backward Euler report}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tol = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{tol\PYZus{}target}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, h0 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h0\PYZus{}start}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, h\PYZus{}min = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h\PYZus{}min\PYZus{}val}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, h\PYZus{}max = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h\PYZus{}max\PYZus{}val}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, rejected = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rejected}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, NR failures = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nr\PYZus{}failures}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total NR iterations = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}iters}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total backtracks = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}backtracks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, steps needing damping = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{damped\PYZus{}steps}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{accepted\PYZus{}mask} \PY{o}{=} \PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted\PYZus{}flags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} step size over time: small during transient, grows during smooth region}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}a}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{h\PYZus{}hist}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted h}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x\PYZus{}attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{accepted\PYZus{}mask}\PY{p}{]}\PY{p}{,} \PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{h\PYZus{}attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{accepted\PYZus{}mask}\PY{p}{]}\PY{p}{,}
+            \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rejected attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{step size h}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adaptive Step Size Control}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} error estimate per attempted step, with the tolerance line for reference}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{good\PYZus{}err} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{isfinite}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{err\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{err\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{[}\PY{n}{good\PYZus{}err}\PY{p}{]}\PY{p}{,}
+             \PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{err\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{good\PYZus{}err}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{n}{tol\PYZus{}target}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tolerance}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{attempted step}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{step\PYZhy{}doubling error estimate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adaptive Error Estimate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} NR cost per step (one bar per attempt)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iter\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iter\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{attempted step}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NR iterations}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Newton\PYZhy{}Raphson Cost per Adaptive Attempt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} cumulative NR cost, including rejected attempts (the honest accounting)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iter\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{cumsum}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iter\PYZus{}history}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{attempted step}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cumulative NR iterations}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total Newton\PYZhy{}Raphson Cost Including Rejected Steps}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} adaptive vs fixed h=0.01 trajectory comparison}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}a}\PY{p}{,} \PY{n}{y\PYZus{}a}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adaptive (}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ accepted, }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rejected}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ rejected)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{xf}\PY{p}{,} \PY{n}{yf}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{BackwardEulerFixed}\PY{p}{(}\PY{l+m+mf}{0.01}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{c}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xf}\PY{p}{,} \PY{n}{yf}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{k\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fixed h=0.01 (}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{xf}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ steps)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adaptive vs Fixed Solution}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Robustness test 1: start with a ridiculously large h0 to see if the}
+\PY{c+c1}{\PYZsh{} controller can recover and shrink h to something reasonable}
+\PY{n}{h0\PYZus{}large} \PY{o}{=} \PY{l+m+mi}{20}
+
+\PY{n}{x\PYZus{}l}\PY{p}{,} \PY{n}{y\PYZus{}l}\PY{p}{,} \PY{n}{h\PYZus{}hist\PYZus{}l}\PY{p}{,} \PY{n}{stats\PYZus{}l} \PY{o}{=} \PY{n}{AdaptiveBackwardEuler}\PY{p}{(}
+    \PY{n}{h0}\PY{o}{=}\PY{n}{h0\PYZus{}large}\PY{p}{,} \PY{n}{tol}\PY{o}{=}\PY{n}{tol\PYZus{}target}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{n}{k}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{c}\PY{p}{,} \PY{n}{y\PYZus{}init}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+    \PY{n}{h\PYZus{}min}\PY{o}{=}\PY{n}{h\PYZus{}min\PYZus{}val}\PY{p}{,} \PY{n}{h\PYZus{}max}\PY{o}{=}\PY{n}{h\PYZus{}max\PYZus{}val}
+\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Part 3.3 Large initial step size test}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tol = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{tol\PYZus{}target}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, h0 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h0\PYZus{}large}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, rejected = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rejected}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, NR failures = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nr\PYZus{}failures}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total NR iterations = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}iters}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total backtracks = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}backtracks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, steps needing damping = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{damped\PYZus{}steps}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{accepted\PYZus{}mask\PYZus{}l} \PY{o}{=} \PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted\PYZus{}flags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} step size plot for the large\PYZhy{}h0 run, expect a bunch of rejections at start}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}l}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{h\PYZus{}hist\PYZus{}l}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted h}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x\PYZus{}attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{accepted\PYZus{}mask\PYZus{}l}\PY{p}{]}\PY{p}{,} \PY{n}{stats\PYZus{}l}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{h\PYZus{}attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{accepted\PYZus{}mask\PYZus{}l}\PY{p}{]}\PY{p}{,}
+            \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rejected attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{step size h}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adaptive Step Size with Large Initial h0=}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h0\PYZus{}large}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Robustness test 2: tighten the tolerance and see if the controller}
+\PY{c+c1}{\PYZsh{} automatically picks smaller steps everywhere to meet it}
+\PY{n}{tol\PYZus{}tight} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}8}
+
+\PY{n}{x\PYZus{}t}\PY{p}{,} \PY{n}{y\PYZus{}t}\PY{p}{,} \PY{n}{h\PYZus{}hist\PYZus{}t}\PY{p}{,} \PY{n}{stats\PYZus{}t} \PY{o}{=} \PY{n}{AdaptiveBackwardEuler}\PY{p}{(}
+    \PY{n}{h0}\PY{o}{=}\PY{n}{h0\PYZus{}start}\PY{p}{,} \PY{n}{tol}\PY{o}{=}\PY{n}{tol\PYZus{}tight}\PY{p}{,} \PY{n}{k}\PY{o}{=}\PY{n}{k}\PY{p}{,} \PY{n}{c}\PY{o}{=}\PY{n}{c}\PY{p}{,} \PY{n}{y\PYZus{}init}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+    \PY{n}{h\PYZus{}min}\PY{o}{=}\PY{n}{h\PYZus{}min\PYZus{}val}\PY{p}{,} \PY{n}{h\PYZus{}max}\PY{o}{=}\PY{n}{h\PYZus{}max\PYZus{}val}
+\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Part 3.4 Tight tolerance test}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{tol = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{tol\PYZus{}tight}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, h0 = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{h0\PYZus{}start}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, rejected = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rejected}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, NR failures = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nr\PYZus{}failures}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total NR iterations = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}iters}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total backtracks = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}backtracks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{, steps needing damping = }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{damped\PYZus{}steps}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{accepted\PYZus{}mask\PYZus{}t} \PY{o}{=} \PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted\PYZus{}flags}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} step size plot for the tight\PYZhy{}tolerance run, expect smaller h overall}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{h\PYZus{}hist\PYZus{}t}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accepted h}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x\PYZus{}attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{accepted\PYZus{}mask\PYZus{}t}\PY{p}{]}\PY{p}{,} \PY{n}{stats\PYZus{}t}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{h\PYZus{}attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{accepted\PYZus{}mask\PYZus{}t}\PY{p}{]}\PY{p}{,}
+            \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rejected attempts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{step size h}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Adaptive Step Size with Tight Tolerance tol=}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{tol\PYZus{}tight}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} CITATIONS (Part 2)}
+\PY{c+c1}{\PYZsh{} AI }
+\PY{c+c1}{\PYZsh{} I used Claude Opus 4.7 to answer this prompt}
+\PY{c+c1}{\PYZsh{} \PYZdq{}Please create the plots for the Adaptive vs Fixed, Damped vs Undamped, and Adaptive Error Estimate analyses\PYZdq{}}
+\PY{c+c1}{\PYZsh{} It produced the code for those plots as you can see above.}
+\PY{c+c1}{\PYZsh{} The reason I wanted it to do this is because I didn\PYZsq{}t want to go through and make the plots look good (It didn\PYZsq{}t seem interesting to me lol)}
+
+
+
+\PY{c+c1}{\PYZsh{} (Normal) Sources Used:}
+\PY{c+c1}{\PYZsh{} https://www.w3schools.com/python/matplotlib\PYZus{}intro.asp}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Part 3.1 Newton-Raphson comparison
+h = 5.0, x\_next = 0.1, initial guess = -2499.6
+Undamped: converged = False, iterations = 8
+Damped: converged = True, iterations = 5, total backtracks = 11
+Final alpha = 1.0, damping needed = True
+Backtracks per NR iteration:
+[11  0  0  0  0]
+Alpha per NR iteration:
+[4.8828125e-04 1.0000000e+00 1.0000000e+00 1.0000000e+00 1.0000000e+00]
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Part 3.2 Adaptive Backward Euler report
+tol = 0.0001, h0 = 2.0, h\_min = 1e-06, h\_max = 2.0
+accepted = 5, rejected = 0, NR failures = 0
+total NR iterations = 30
+total backtracks = 0, steps needing damping = 0
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_6.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Part 3.3 Large initial step size test
+tol = 0.0001, h0 = 20
+accepted = 6, rejected = 0, NR failures = 0
+total NR iterations = 34
+total backtracks = 0, steps needing damping = 0
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_11.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Part 3.4 Tight tolerance test
+tol = 1e-08, h0 = 2.0
+accepted = 0, rejected = 3, NR failures = 0
+total NR iterations = 15
+total backtracks = 0, steps needing damping = 0
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{FinalProject_files/FinalProject_5_13.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \section{Part Three}\label{part-three}
+
+\subsection{Review of Part 2}\label{review-of-part-2}
+
+My real-world system is analyzing how an extremely stiff vehicle
+suspension responds to compression/expansion and progresses through
+time.
+
+The governing equation is:
+
+\[\frac{dy}{dt} = -\frac{k}{c}y - y^2 + \frac{10}{c}\sin(t), \qquad y(0)=1\]
+
+With \(k=500\) and \(c=0.1\):
+
+\[\frac{dy}{dt} = -5000\,y - y^2 + 100\,\sin(t), \qquad y(0)=1\]
+
+Please reference Part 2 for more details about what each parameter
+means.
+
+The stiffness parameter would be \(k/c\), so roughly \(5000\)
+(neglecting the effect of the non-linear term). This means that one
+aspect of the system dynamics resolves \textasciitilde5000 times faster
+than the other part, effectively splitting the trajectory into
+short-term and long-term segments. In the short term, only one aspect of
+the system dynamics is relevant (overpowering the other elements of the
+dynamics), and the same is true for the long-term.
+
+\subsection{Newton-Raphson Damping
+Implementation}\label{newton-raphson-damping-implementation}
+
+In the basic Newton-Raphson method, each iteration updates the solution
+using the full Newton step (y\_new = y + (-g/g\_prime)). This
+functionally works well if the initial guess is somewhere close to the
+root of the function. However, if the initial guess is far away, or the
+step size is too large, performing a full Newton step might cause
+infinite oscillations or other unstable behavior. In some cases, it may
+even cause the residual to increase and diverge to infinity instead of
+converging to zero.
+
+The Damped Newton-Raphson Method mitigates this by applying another
+factor to (-g/g\_prime). For the purposes of the explanation, I'll
+reference this factor as ``alpha''. The idea is that initially we set
+alpha to be 1, resulting in y\_new = y + alpha*(-g/g\_prime). Then, if
+after this step the residual didn't decrease, we cut alpha in half (so
+in this case alpha would become 0.5) and then try to do the Newton step
+again, and keep repeating until the residual does start to decrease or a
+minimum threshold is met. The hope is that through this process, we can
+find the ``right'' step size to make progress on reducing the residual.
+
+Some interesting properties of this approach are that it is always
+strictly atleast as accurate as the Undamped Newton-Raphson Method,
+because it initially attempts to do the naive full Newton step, but then
+intelligently ``adjusts'' the step size until it actually makes
+progress.
+
+A more concrete example where Newton-Raphson with Damping is helpful (in
+addition to the system dynamics themselves) is when we want to use a
+large step size, for example, a step size of 5.0, and an initial
+condition where a full Newton step would be too aggressive. As you can
+see in the plots above, the Undamped version of Newton-Raphson fails to
+reduce the residual to near zero for 7+ iterations, whilst the Damped
+version managed to get the residual close to zero within just 4-5
+iterations. Furthermore, computationally, from the plots you can see the
+alpha backtracking was only necessary for the very first iteration,
+after which point the state was in a location in phase space that was
+stable enough for us to take full Newton steps.
+
+\subsection{Adaptive Step Size
+Implementation}\label{adaptive-step-size-implementation}
+
+Step doubling estimates the local error by solving the same interval in
+two different ways.
+
+Firstly, the method takes a full Newton step of size ``h.'' Then it
+solves the same interval using two smaller half steps of size h/2.
+Taking two half steps is more accurate because it means we are able to
+take more samples of the function, better approximating the continuous
+nature of the solution (more fidelity). Then we take the half step
+result and consider it to be ground-truth, and we compute error based on
+the absolute difference between the update computed with full Newton
+steps (h) and the update computed with half Newton steps (h/2). If the
+error for the update is less than our allowed tolerance, we accept the
+step update. However, if the error is larger than our acceptable
+tolerance, we retry with a smaller step size \(h'\) given by
+
+\[h' = h \cdot \sqrt{\frac{\text{tol}}{\text{err} + \varepsilon}}\]
+
+We also multiply h' by a safety factor to make sure that the step size
+doesn't change too much too quickly. The reason we have the formula
+above for h' is due to the fact that Backward Euler has local error
+proportional to the step size squared. So to compute the next step size
+based on error, we need the square root component.
+
+\subsection{Performance Analysis}\label{performance-analysis}
+
+To evaluate whether step doubling and adaptive control are actually
+helpful, we can compare adaptive Backward Euler against fixed-step
+Backward Euler in two ways. The first method is fixing the target
+accuracy and comparing the computational cost, and the second is fixing
+the step budget and comparing accuracy.
+
+Due to the stiff nature of our system, the fixed-step solver has to pick
+a small enough h to resolve the transient, but then it keeps using that
+same small h through the smooth region, where it's unnecessarily
+computing things with such fine-grained precision when it doesn't need
+to. The adaptive method starts with a small h for the transient and then
+grows h once the solution becomes smooth (stable), taking only as many
+steps as needed at any given point. As you can see in the plots above,
+this results in a clear reduction in total NR iterations whilst
+maintaining the same target accuracy. The relevant cost metric here is
+NR iterations plus backtracks, rather than just step count, because each
+adaptive step does 3 Newton-Raphson solves (one full h plus two h/2) and
+each iteration involves multiple residual evaluations. Looking at just
+step counts wouldn't be a fair comparison, because each of the adaptive
+Newton-Raphson steps takes more computation than the non-adaptive
+variant.
+
+When both methods are given the same number of accepted steps, the
+adaptive method ends up more accurate because it places its steps where
+the solution actually needs them. The fixed method under-resolves the
+transient (introducing error early on that propagates forward through
+the integration) and over-resolves the smooth region (wasting steps).
+One thing to note is that a fair step budget for the adaptive method
+should include rejected attempts too, since those still cost NR work.
+Counting those does diminish the advantage, but doesn't eliminate it.
+
+The takeaway is that adaptive stepping is helpful whenever the solution
+has localized regions of fast dynamics, which is exactly what a stiff
+problem creates. Damping and step doubling also work together nicely.
+Damping keeps the implicit solve stable when the controller proposes a
+large h, and the controller keeps h from getting so large that the solve
+fails entirely.
+
+\subsection{Robustness Testing}\label{robustness-testing}
+
+As you can see from the plots, setting the initial step size to be 20,
+which is incredibly high for this selected interval, the adaptive step
+size controller accurately set it to the optimal step size and handled
+it gracefully. Furthermore, for a strict tolerance, when the system
+dynamics change (due to the system being stiff), the controller
+initially sets step sizes that are too high, but then quickly recovers
+after some rejected attempts, and then continues onwards. This shows how
+this adaptive controller system is computationally efficient, whilst not
+compromising on accuracy.
+
+\subsection{Conclusion}\label{conclusion}
+
+In conclusion, Damping is ideal to implement when you can't guarantee
+Newton-Raphson will always converge on reasonable step sizes that keep
+reducing your error. If you chose to forgo damping, there are situations
+where an Undamped Newton-Raphson will not be able to converge, whereas
+Damped Newton-Raphson will. Furthermore, it's important to reiterate
+that Newton-Raphson with Damping is indistinguishable from Undamped
+Newton-Raphson, until a point where the damped version will continue
+converging whilst Undamped Newton-Raphson starts diverging. With regards
+to adaptive step sizes, that's useful for when you're modeling stiff
+systems, so you need a comparatively small time step for the aspect of
+your system that experiences fast dynamics, whilst not needing all that
+accuracy for when the system dynamics are mostly determined by the slow
+timescale dynamics. In other words, it forms the optimal ratio of having
+accuracy when you really need it, and providing efficiency if it's
+logical to forego precision. It's important to note that if you want to
+know the exact trajectory of your system given initial conditions,
+adaptive step size is not ideal, because it won't model the true shape
+of your slow time-scale dynamics. Instead, it should be used when you
+primarily care about end behavior.
+
+\textbf{NOTE} Claude Opus 4.7 was used in the editing/revising of this
+document
+
+    
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
